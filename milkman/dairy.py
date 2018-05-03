@@ -148,7 +148,7 @@ class MilkTruck(object):
                 explicit_values = related_explicit_values.get(field.name, {})
                 v = the_milkman.deliver(field.rel.to, **explicit_values)
             else:
-                v = self.generator_for(the_milkman.registry, field).next()
+                v = next(self.generator_for(the_milkman.registry, field))
             setattr(target, field.name, v)
 
     def set_m2m_fields(self,
