@@ -83,7 +83,7 @@ class MilkTruck(object):
 
         model_explicit_values = {}
         related_explicit_values = {}
-        for key, value in explicit_values.iteritems():
+        for key, value in explicit_values.items():
             if '__' in key:
                 prefix, sep, postfix = key.partition('__')
                 related_explicit_values.setdefault(prefix, {})
@@ -123,17 +123,17 @@ class MilkTruck(object):
     def has_explicit_through_table(self, field):
         if isinstance(field.rel.through, models.base.ModelBase):  # Django 1.2
             return not field.rel.through._meta.auto_created
-        if isinstance(field.rel.through, (str, unicode)):  # Django 1.1
+        if isinstance(field.rel.through, (str, bytes)):  # Django 1.1
             return True
         return False
 
     def set_explicit_values(self, target, explicit_values):
-        for k, v in explicit_values.iteritems():
+        for k, v in explicit_values.items():
             if not self.is_m2m(k):
                 setattr(target, k, v)
 
     def set_m2m_explicit_values(self, target, explicit_values):
-        for k, vs in explicit_values.iteritems():
+        for k, vs in explicit_values.items():
             if self.is_m2m(k):
                 setattr(target, k, vs)
 

@@ -6,6 +6,8 @@ import string
 import sys
 import uuid
 
+from functools import reduce
+
 from django.core.files.storage import DefaultStorage
 from django.utils import timezone
 
