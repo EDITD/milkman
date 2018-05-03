@@ -70,6 +70,10 @@ class MilkTruck(object):
 
         if isinstance(model_class, (str, bytes)):
             model_class = self.get_model_class_from_string(model_class)
+
+        if isinstance(model_class, models.ManyToOneRel):
+            model_class = model_class.model
+
         self.model_class = model_class
 
     def get_model_class_from_string(self, model_name):
@@ -146,7 +150,7 @@ class MilkTruck(object):
                                              exclude):
             if isinstance(field, RelatedField):
                 explicit_values = related_explicit_values.get(field.name, {})
-                v = the_milkman.deliver(field.rel.to, **explicit_values)
+                v = the_milkman.deliver(field.remote_field, **explicit_values)
             else:
                 v = next(self.generator_for(the_milkman.registry, field))
             setattr(target, field.name, v)
@@ -167,7 +171,7 @@ class MilkTruck(object):
                 explicit_values = related_explicit_values.get(field.name, {})
                 explicit_values.update(exclude)
                 setattr(target, field.name, [the_milkman.deliver(
-                    field.rel.to, **explicit_values)])
+                    field.remote_field, **explicit_values)])
 
     def generator_for(self, registry, field):
         field_cls = type(field)
