@@ -125,11 +125,7 @@ class MilkTruck(object):
             self.model_class._meta.local_many_to_many]
 
     def has_explicit_through_table(self, field):
-        if isinstance(field.rel.through, models.base.ModelBase):  # Django 1.2
-            return not field.rel.through._meta.auto_created
-        if isinstance(field.rel.through, (str, bytes)):  # Django 1.1
-            return True
-        return False
+        return True
 
     def set_explicit_values(self, target, explicit_values):
         for k, v in explicit_values.items():
@@ -166,7 +162,7 @@ class MilkTruck(object):
                 exclude = {}
                 # if the target field is the same class, we don't want to keep
                 # generating
-                if type(target) == field.related.model:
+                if type(target) == field.related_model:
                     exclude = {field.name: ''}
                 explicit_values = related_explicit_values.get(field.name, {})
                 explicit_values.update(exclude)
