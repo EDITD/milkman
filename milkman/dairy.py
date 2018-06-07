@@ -139,7 +139,7 @@ class MilkTruck(object):
     def set_m2m_explicit_values(self, target, explicit_values):
         for k, vs in explicit_values.items():
             if self.is_m2m(k):
-                setattr(target, k, vs)
+                getattr(target, k).set(vs)
 
     def set_local_fields(self,
                          target,
